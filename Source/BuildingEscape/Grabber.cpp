@@ -26,9 +26,20 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-//If physics handle is attached. We want to move the object that we are holding. 
+	FVector PlayerViewPos;
+FRotator PlayerViewPointRot;
 
-//	GetFirstPhysicsbodyInReach();
+GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
+	OUT PlayerViewPos,
+	OUT PlayerViewPointRot
+);
+
+FVector LineTraceEnd = PlayerViewPos + PlayerViewPointRot.Vector() * reach;
+
+//If physics handle is attached. We want to move the object that we are holding. 
+if(PhysicsHandle->GrabbedComponent) {
+	PhysicsHandle->SetTargetLocation(LineTraceEnd);
+}
 
 
 
@@ -37,7 +48,18 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 void UGrabber::Grab() {
 UE_LOG(LogTemp, Warning, TEXT("Grabber pressed"));
 
-GetFirstPhysicsbodyInReach();
+FVector PlayerViewPos;
+FRotator PlayerViewPointRot;
+
+GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
+	OUT PlayerViewPos,
+	OUT PlayerViewPointRot
+);
+
+FVector LineTraceEnd = PlayerViewPos + PlayerViewPointRot.Vector() * reach;
+
+FHitResult HitResult = GetFirstPhysicsbodyInReach();
+UPrimitiveComponent* ComponentToGrab = HitResult.GetComponent();
 /*
 Only raycast when key is pressed.
 
@@ -45,15 +67,16 @@ Try and reach actors with physicsbody collision channel set.
 If we hit something then attach the physics handle.
 Attach physics handle
 */
+if(HitResult.GetActor()) {
+PhysicsHandle->GrabComponentAtLocation(ComponentToGrab, NAME_None, LineTraceEnd);
+}
 
 }
 
 void UGrabber::Release() {
-	UE_LOG(LogTemp, Warning, TEXT("Grabber released"));
-	/*
-	
-	Remove and relese physics handle. 
-	*/
+
+	PhysicsHandle->ReleaseComponent();
+
 }
 
 //Check for Physics handle component
