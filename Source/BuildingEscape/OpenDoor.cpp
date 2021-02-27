@@ -35,7 +35,8 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (PressurePlate && PressurePlate->IsOverlappingActor(ActorThatOpen)) {
+	if(GetTotalMassOfActors() > MassToOpenDoor) {
+//	if (PressurePlate && PressurePlate->IsOverlappingActor(ActorThatOpen)) {
 		OpenDoor(DeltaTime);
 		DoorLastOpened = GetWorld()->GetTimeSeconds();
 	}
@@ -52,11 +53,6 @@ void UOpenDoor::OpenDoor(float DeltaTime) {
 	FRotator DoorRotation = GetOwner()->GetActorRotation();
 	DoorRotation.Yaw = CurrentYaw;
 	GetOwner()->SetActorRotation(DoorRotation);
-
-	/*
-	UE_LOG(LogTemp, Warning, TEXT("%s,Transform:%s"), *GetOwner()->GetActorRotation().ToString(), *GetOwner()->GetActorTransform().ToString());
-	UE_LOG(LogTemp, Warning, TEXT("Yaw is: %f"), GetOwner()->GetActorRotation().Yaw);
-	*/
 }
 
 void UOpenDoor::CloseDoor(float DeltaTime) {
@@ -66,4 +62,19 @@ void UOpenDoor::CloseDoor(float DeltaTime) {
 	GetOwner()->SetActorRotation(DoorRotation);
 
 
+}
+
+float UOpenDoor::GetTotalMassOfActors() const {
+
+	float TotalMass = 0.f; 
+	// Find all overlapping actors
+	TArray<AActor*> OverlappingActors;
+	PressurePlate->GetOverlappingActors(OUT OverlappingActors);
+	
+	for (AActor* Actor : OverlappingActors) {
+		TotalMass += Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
+	}
+	 UE_LOG(LogTemp, Error, TEXT("Total mass %f"), TotalMass);
+	
+	return TotalMass;
 }

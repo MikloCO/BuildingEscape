@@ -38,9 +38,10 @@ private:
 	void Grab();
 	void Release();
 	void FindPhysicsHandle();
-	void SetupInputHandle();
-	void DrawDebugLine(FVector actorVector, FVector LineTraceEnd);
-	//Return first actor within reach with physics body.
+	void OnActionInputHandle();
+	//void DrawDebugLine(FVector actorVector, FVector LineTraceEnd);
 	FHitResult GetFirstPhysicsbodyInReach() const;
+	FVector GetPlayerCalculatedRayTraceEnd() const;
+	FVector GetPlayersWorldPos() const;
 		
 };
