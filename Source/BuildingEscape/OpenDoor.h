@@ -9,6 +9,7 @@
 #include "Engine/World.h"
 #include "GameFrameWork/Actor.h"
 #include "Components/PrimitiveComponent.h"
+#include "Components/AudioComponent.h"
 #include "OpenDoor.generated.h"
 
 
@@ -21,12 +22,13 @@ class BUILDINGESCAPE_API UOpenDoor : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UOpenDoor();
+	void FindAudioComponent();
 
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	
+
 
 public:
 	// Called every frame
@@ -44,7 +46,9 @@ private:
 		float OpenAngle{ 90.f };
 
 	UPROPERTY(EditAnywhere)
-		ATriggerVolume* PressurePlate { nullptr };
+		ATriggerVolume* PressurePlate {
+		nullptr
+	};
 
 	void OpenDoor(float DeltaTime);
 	void CloseDoor(float DeltaTime);
@@ -55,7 +59,7 @@ private:
 		float DoorOpenSpeed{ .8f };
 	UPROPERTY(EditAnywhere)
 		float DoorCloseSpeed{ 2.f };
-	
-	
 
+	UPROPERTY()
+		UAudioComponent* AudioComponent {nullptr};
 };

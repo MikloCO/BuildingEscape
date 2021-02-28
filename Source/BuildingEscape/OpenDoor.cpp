@@ -25,6 +25,15 @@ void UOpenDoor::BeginPlay()
 	}
 }
 
+void UOpenDoor::FindAudioComponent()  {
+	AudioComponent = GetOwner()->FindComponentByClass<UAudioComponent>();
+	if (AudioComponent == nullptr) {
+		UE_LOG(LogTemp, Error, TEXT("%s is missing Audio component."), *GetOwner()->GetName());
+	}
+
+	
+}
+
 
 // Called every frame
 void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -46,6 +55,8 @@ void UOpenDoor::OpenDoor(float DeltaTime) {
 	FRotator DoorRotation = GetOwner()->GetActorRotation();
 	DoorRotation.Yaw = CurrentYaw;
 	GetOwner()->SetActorRotation(DoorRotation);
+
+	AudioComponent->Play();
 }
 
 void UOpenDoor::CloseDoor(float DeltaTime) {
@@ -62,6 +73,7 @@ float UOpenDoor::GetTotalMassOfActors() const {
 	float TotalMass = 0.f; 
 	// Find all overlapping actors
 	TArray<AActor*> OverlappingActors;
+
 	if (PressurePlate != nullptr) {
 		PressurePlate->GetOverlappingActors(OUT OverlappingActors);
 	}

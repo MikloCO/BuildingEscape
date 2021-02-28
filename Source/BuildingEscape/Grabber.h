@@ -32,10 +32,9 @@ protected:
 private:
 	float reach{ 100.f };
 
-	//UPhysicsHandleComponent* PhysicsHandle = nullptr;
-	//UInputComponent * InputHandle = nullptr;
-
+	UPROPERTY()
 	UPhysicsHandleComponent* PhysicsHandle{ nullptr };
+	UPROPERTY()
 	UInputComponent* InputHandle { nullptr };
 
 	void Grab();
