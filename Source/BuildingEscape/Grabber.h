@@ -30,7 +30,7 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	float reach{ 100.f };
+	float reach{ 200.f };
 
 	UPROPERTY()
 	UPhysicsHandleComponent* PhysicsHandle{ nullptr };
