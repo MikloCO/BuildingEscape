@@ -18,7 +18,7 @@ class BUILDINGESCAPE_API UGrabber : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UGrabber();
 
@@ -30,10 +30,13 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	float reach { 100.f };
+	float reach{ 100.f };
 
-	UPhysicsHandleComponent* PhysicsHandle = nullptr;
-	UInputComponent * InputHandle = nullptr;
+	//UPhysicsHandleComponent* PhysicsHandle = nullptr;
+	//UInputComponent * InputHandle = nullptr;
+
+	UPhysicsHandleComponent* PhysicsHandle{ nullptr };
+	UInputComponent* InputHandle { nullptr };
 
 	void Grab();
 	void Release();

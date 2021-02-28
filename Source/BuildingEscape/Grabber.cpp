@@ -25,7 +25,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	
 	//If physics handle is attached. We want to move the object that we are holding. 
-	if (PhysicsHandle->GrabbedComponent) {
+	if (PhysicsHandle != nullptr && PhysicsHandle->GrabbedComponent) {
 		PhysicsHandle->SetTargetLocation(GetPlayerCalculatedRayTraceEnd());
 	}
 }
@@ -55,14 +55,16 @@ void UGrabber::Grab() {
 
 	FHitResult HitResult = GetFirstPhysicsbodyInReach();
 	UPrimitiveComponent* ComponentToGrab = HitResult.GetComponent();
+	AActor* ActorHit{ HitResult.GetActor() };
 	
-	if (HitResult.GetActor()) {
+	if (PhysicsHandle != nullptr && ActorHit) {
 		PhysicsHandle->GrabComponentAtLocation(ComponentToGrab, NAME_None, GetPlayerCalculatedRayTraceEnd());
 	}
 }
 
 void UGrabber::Release() {
-	PhysicsHandle->ReleaseComponent();
+	if (PhysicsHandle != nullptr) 
+		PhysicsHandle->ReleaseComponent();
 }
 
 /*

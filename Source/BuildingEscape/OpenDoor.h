@@ -26,6 +26,7 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	
 
 public:
 	// Called every frame
@@ -43,11 +44,7 @@ private:
 		float OpenAngle{ 90.f };
 
 	UPROPERTY(EditAnywhere)
-		ATriggerVolume* PressurePlate;
-
-	UPROPERTY(EditAnywhere)
-		//We can be generic and use AActor instead of Pawn.
-		AActor* ActorThatOpen;
+		ATriggerVolume* PressurePlate { nullptr };
 
 	void OpenDoor(float DeltaTime);
 	void CloseDoor(float DeltaTime);
@@ -58,7 +55,7 @@ private:
 		float DoorOpenSpeed{ .8f };
 	UPROPERTY(EditAnywhere)
 		float DoorCloseSpeed{ 2.f };
-	//UPROPERTY(EditAnywhere)
-	//	float TotalMass { 0.f };
+	
+	
 
 };
