@@ -35,6 +35,9 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	float GetTotalMassOfActors() const;
 
+	void GetPressurePlate() const;
+	void FindPressurePlate();
+
 private:
 	float InitialYaw;
 	float CurrentYaw;
@@ -62,4 +65,9 @@ private:
 
 	UPROPERTY()
 		UAudioComponent* AudioComponent {nullptr};
+
+	TArray<AActor*> OverlappingActors;
+
+	bool OpenDoorSoundHasPlayed{ false };
+	bool CloseDoorSoundHasPlayed{ true };
 };

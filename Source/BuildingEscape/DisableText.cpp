@@ -32,7 +32,7 @@ void UDisableText::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 
 	if (PressurePlate && PressurePlate->IsOverlappingActor(ActorThatOpen)) {
 		GetOwner()->SetActorHiddenInGame(true);
-		UE_LOG(LogTemp, Error, TEXT("Actor Hidden"));	
+		//UE_LOG(LogTemp, Error, TEXT("Actor Hidden"));	
 	}
 }
 

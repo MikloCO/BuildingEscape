@@ -8,9 +8,7 @@ UOpenDoor::UOpenDoor()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-	// ...
 }
-
 
 // Called when the game starts
 void UOpenDoor::BeginPlay()
@@ -20,20 +18,9 @@ void UOpenDoor::BeginPlay()
 	CurrentYaw = InitialYaw;
 	OpenAngle += InitialYaw;
 
-	if (!PressurePlate) {
-		UE_LOG(LogTemp, Error, TEXT("%s, has no pressureplate."), *GetOwner()->GetName());
-	}
+	FindPressurePlate();
+	FindAudioComponent();
 }
-
-void UOpenDoor::FindAudioComponent()  {
-	AudioComponent = GetOwner()->FindComponentByClass<UAudioComponent>();
-	if (AudioComponent == nullptr) {
-		UE_LOG(LogTemp, Error, TEXT("%s is missing Audio component."), *GetOwner()->GetName());
-	}
-
-	
-}
-
 
 // Called every frame
 void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -44,7 +31,6 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 		OpenDoor(DeltaTime);
 		DoorLastOpened = GetWorld()->GetTimeSeconds();
 	}
-
 	else if (GetWorld()->GetTimeSeconds() - DoorLastOpened > DoorCloseDelay) {
 				CloseDoor(DeltaTime);
 	}	
@@ -56,7 +42,13 @@ void UOpenDoor::OpenDoor(float DeltaTime) {
 	DoorRotation.Yaw = CurrentYaw;
 	GetOwner()->SetActorRotation(DoorRotation);
 
-	AudioComponent->Play();
+	CloseDoorSoundHasPlayed = false;
+
+	if (AudioComponent != nullptr && !OpenDoorSoundHasPlayed) {
+		AudioComponent->Play(0.2f);
+		OpenDoorSoundHasPlayed = true;
+	}
+	
 }
 
 void UOpenDoor::CloseDoor(float DeltaTime) {
@@ -65,26 +57,40 @@ void UOpenDoor::CloseDoor(float DeltaTime) {
 	DoorRotation.Yaw = CurrentYaw;
 	GetOwner()->SetActorRotation(DoorRotation);
 
+	OpenDoorSoundHasPlayed = false;
+	if(AudioComponent != nullptr && !CloseDoorSoundHasPlayed) {
+		AudioComponent->Play(0.2f);
+		CloseDoorSoundHasPlayed = true;
+		UE_LOG(LogTemp, Error, TEXT("Audiocomponent is not playing."));
+	}
 
 }
 
 float UOpenDoor::GetTotalMassOfActors() const {
 
 	float TotalMass = 0.f; 
-	// Find all overlapping actors
 	TArray<AActor*> OverlappingActors;
 
 	if (PressurePlate != nullptr) {
 		PressurePlate->GetOverlappingActors(OUT OverlappingActors);
 	}
-	else {
-		UE_LOG(LogTemp, Error, TEXT("%s, has no pressureplate."), *GetOwner()->GetName());
-	}
 	
 	for (AActor* Actor : OverlappingActors) {
 		TotalMass += Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
 	}
-	// UE_LOG(LogTemp, Error, TEXT("Total mass %f"), TotalMass);
 	
 	return TotalMass;
+}
+
+void UOpenDoor::FindPressurePlate() {
+	if (PressurePlate == nullptr) {
+		UE_LOG(LogTemp, Error, TEXT("%s, has no pressureplate."), *GetOwner()->GetName());
+	}
+}
+
+void UOpenDoor::FindAudioComponent()  {
+	AudioComponent = GetOwner()->FindComponentByClass<UAudioComponent>();
+	if (!AudioComponent) {
+		UE_LOG(LogTemp, Error, TEXT("%s is missing Audio component."), *GetOwner()->GetName());
+	}
 }
