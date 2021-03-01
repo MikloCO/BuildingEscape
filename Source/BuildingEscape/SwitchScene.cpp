@@ -34,7 +34,7 @@ void USwitchScene::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+//Has player stepped upon Switchscene pressureplate? If yes, load next scene. 
 	if (Switchlevel && Switchlevel->IsOverlappingActor(ActorToSwitchScene)) {
 		UGameplayStatics::OpenLevel(
 			this, 
@@ -45,5 +45,4 @@ void USwitchScene::TickComponent(float DeltaTime, ELevelTick TickType, FActorCom
 
 }
 
-//Has player stepped upon Switchscene pressureplate? If yes, load next scene. 
 
