@@ -19,8 +19,8 @@ UDisableText::UDisableText()
 void UDisableText::BeginPlay()
 {
 	Super::BeginPlay();
-	ActorThatOpen = GetWorld()->GetFirstPlayerController()->GetPawn();
-
+	OnHelpHandle();
+	GetOwner()->SetActorHiddenInGame(true);
 	
 }
 
@@ -29,10 +29,25 @@ void UDisableText::BeginPlay()
 void UDisableText::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	
+}
 
-	if (PressurePlate && PressurePlate->IsOverlappingActor(ActorThatOpen)) {
-		GetOwner()->SetActorHiddenInGame(true);
-		//UE_LOG(LogTemp, Error, TEXT("Actor Hidden"));	
+void UDisableText::OnHelpHandle() {
+	InputHandle = GetWorld()->GetFirstPlayerController()->FindComponentByClass<UInputComponent>();
+	
+	if (InputHandle)
+	{
+		InputHandle->BindAction("Helper", IE_Pressed, this, &UDisableText::HelpOn);
+		InputHandle->BindAction("Helper", IE_Released, this, &UDisableText::HelpOff);
 	}
 }
+
+void UDisableText::HelpOff() {
+	GetOwner()->SetActorHiddenInGame(true);
+}
+
+void UDisableText::HelpOn() {
+	GetOwner()->SetActorHiddenInGame(false);
+}
+
 

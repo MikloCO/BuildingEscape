@@ -3,8 +3,11 @@
 #pragma once
 
 #include "Components/ActorComponent.h"
+#include "Components/InputComponent.h"
 #include "Engine/TriggerVolume.h"
 #include "GameFramework/Actor.h"
+#include "Engine/World.h"
+#include "GameFramework/PlayerController.h"
 #include "DisableText.generated.h"
 
 
@@ -24,12 +27,20 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+/*
 	UPROPERTY(EditAnywhere)
 		ATriggerVolume* PressurePlate;
 	
 	UPROPERTY(EditAnywhere)
 		//We can be generic and use AActor instead of Pawn.
 		AActor* ActorThatOpen;
+*/
+	void OnHelpHandle();
+	
+	void HelpOn();
+	void HelpOff();
 
+private:
 
+	UInputComponent* InputHandle{ nullptr };
 };

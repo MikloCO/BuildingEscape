@@ -49,8 +49,6 @@ void UGrabber::OnActionInputHandle() {
 }
 
 void UGrabber::Grab() {
-//	UE_LOG(LogTemp, Warning, TEXT("Grabber pressed"));
-
 	GetPlayerCalculatedRayTraceEnd();
 
 	FHitResult HitResult = GetFirstPhysicsbodyInReach();
