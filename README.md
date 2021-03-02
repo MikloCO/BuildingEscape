@@ -3,6 +3,6 @@
 
 All assets are created in Maya by me.
 
-Developed with Unreal Engine 4 V4.22.3
+Developed with Unreal Engine 4 V.22.3
 
 
