@@ -1,6 +1,8 @@
 // Copyright Olivia Mikler 2020-2021
-#include "Gun.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "DrawDebugHelpers.h"
+#include "Gun.h"
 
 // Sets default values
 AGun::AGun()
@@ -30,3 +32,20 @@ void AGun::Tick(float DeltaTime)
 
 }
 
+void AGun::PullTrigger() {
+	UGameplayStatics::SpawnEmitterAttached(MuzzleFlare, Mesh, TEXT("MuzzleFlashSocket"));
+
+	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+	if (OwnerPawn == nullptr) return; 
+	AController* OwnerController = OwnerPawn->GetController();
+	if (OwnerController == nullptr) return;
+
+	FVector Location;
+	FRotator Rotation;
+
+	OwnerController->GetPlayerViewPoint(Location, Rotation);
+
+
+	DrawDebugCamera(GetWorld(), Location, Rotation, 89, 2, FColor::Red, true);
+	
+}
