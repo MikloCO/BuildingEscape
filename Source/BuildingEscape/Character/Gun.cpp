@@ -4,6 +4,8 @@
 #include "DrawDebugHelpers.h"
 #include "Gun.h"
 
+#define COLLISION_GUN ECC_Bullet
+
 // Sets default values
 AGun::AGun()
 {
@@ -45,7 +47,45 @@ void AGun::PullTrigger() {
 
 	OwnerController->GetPlayerViewPoint(Location, Rotation);
 
+	FVector End = Location + Rotation.Vector() * MaxRange;
 
-	DrawDebugCamera(GetWorld(), Location, Rotation, 89, 2, FColor::Red, true);
+	FHitResult point;
+
+	bool bBulletHit = GetWorld()->LineTraceSingleByChannel(
+		OUT point,
+		Location,
+		End,
+		ECollisionChannel::ECC_GameTraceChannel1
+	);
+
+	if (bBulletHit) {
+		FVector ShotDirection = -Rotation.Vector();
+	
+		UGameplayStatics::SpawnEmitterAtLocation(
+			GetWorld(),
+			BulletHit,
+			point.Location,
+			ShotDirection.Rotation()
+		);
+		
+		AActor* HitCharacter = point.GetActor();
+
+		if (HitCharacter != nullptr) {
+			FPointDamageEvent DamageEvent(damage, point, ShotDirection, nullptr);
+			HitCharacter->TakeDamage(
+				damage,
+				DamageEvent,
+				OwnerController,
+				this
+			);
+
+			
+		}
+
+
+		
+	}
+
+
 	
 }

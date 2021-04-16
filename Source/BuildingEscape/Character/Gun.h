@@ -35,4 +35,13 @@ private:
 	UPROPERTY(EditAnywhere)
 		UParticleSystem* MuzzleFlare;
 
+	UPROPERTY(EditAnywhere)
+		UParticleSystem* BulletHit;
+
+	UPROPERTY(EditAnywhere)
+		float MaxRange = 1000.0f;
+
+	UPROPERTY(EditAnywhere)
+		float damage = 10.0f;
+
 };
