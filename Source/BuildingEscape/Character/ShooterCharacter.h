@@ -18,6 +18,8 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	UFUNCTION(BlueprintPure)
+		bool IsDead() const;
 	// Sets default values for this character's properties
 	AShooterCharacter();
 	// Called every frame
@@ -25,6 +27,7 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
 	
 	virtual float TakeDamage(
 		float DamageAmount,

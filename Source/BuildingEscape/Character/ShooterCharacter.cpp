@@ -50,6 +50,12 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 }
 
+bool AShooterCharacter::IsDead() const {
+	
+	return Health <= 0 ? true : false;
+	
+}
+
 float AShooterCharacter::TakeDamage(float DamageAmount,	struct FDamageEvent const& DamageEvent,	class AController* EventInstigator,	AActor* DamageCauser) 
 {
 	float DamageApplied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
