@@ -20,6 +20,8 @@ protected:
 public:	
 	UFUNCTION(BlueprintPure)
 		bool IsDead() const;
+	
+	void Shoot();
 	// Sets default values for this character's properties
 	AShooterCharacter();
 	// Called every frame
@@ -41,7 +43,6 @@ private:
 	void MoveRight(float AxisValue);
 	void LookUpRate(float AxisValue);
 	void LookRightRate(float AxisValue);
-	void Shoot();
 
 	UPROPERTY(EditDefaultsOnly)
 		float MaxHealth = 100;
