@@ -58,6 +58,12 @@ bool AShooterCharacter::IsDead() const {
 	
 }
 
+
+float AShooterCharacter::GetHealthPercent() const 
+{
+	return Health / MaxHealth;
+}
+
 float AShooterCharacter::TakeDamage(float DamageAmount,	struct FDamageEvent const& DamageEvent,	class AController* EventInstigator,	AActor* DamageCauser) 
 {
 	float DamageApplied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);

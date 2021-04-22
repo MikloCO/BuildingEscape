@@ -16,5 +16,6 @@ class BUILDINGESCAPE_API AHardMode : public AShooterGameModeBase
 
 public:
 	void PawnKilled(APawn* PawnKilled) override;
-
+private:
+	void EndGame(bool bIsPlayerWinner);
 };

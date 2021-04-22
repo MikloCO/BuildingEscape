@@ -36,6 +36,12 @@ private:
 		UParticleSystem* MuzzleFlare;
 
 	UPROPERTY(EditAnywhere)
+		USoundBase* MuzzleSound;
+
+	UPROPERTY(EditAnywhere)
+		USoundBase* ImpactSound;
+
+	UPROPERTY(EditAnywhere)
 		UParticleSystem* BulletHit;
 
 	UPROPERTY(EditAnywhere)
@@ -44,4 +50,7 @@ private:
 	UPROPERTY(EditAnywhere)
 		float damage = 10.0f;
 
+	bool GunTrace(FHitResult& Hit, FVector& ShotDirection);
+
+	AController* GetOwnerController() const;
 };
