@@ -27,6 +27,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	//If physics handle is attached. We want to move the object that we are holding. 
 	if (PhysicsHandle != nullptr && PhysicsHandle->GrabbedComponent) {
 		PhysicsHandle->SetTargetLocation(GetPlayerCalculatedRayTraceEnd());
+		UE_LOG(LogTemp, Error, TEXT("Object '%s' is missing physicsHandle"));
 	}
 }
 
