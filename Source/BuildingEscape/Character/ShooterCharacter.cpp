@@ -53,9 +53,7 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 }
 
 bool AShooterCharacter::IsDead() const {
-	
-	return Health <= 0 ? true : false;
-	
+	return Health <= 0;
 }
 
 
@@ -72,6 +70,7 @@ float AShooterCharacter::TakeDamage(float DamageAmount,	struct FDamageEvent cons
 	UE_LOG(LogTemp, Warning, TEXT("Health left %f"), Health);
 
 	if (IsDead()) {
+		
 		AShooterGameModeBase* GameMode = GetWorld()->GetAuthGameMode<AShooterGameModeBase>();
 		
 		if (GameMode != nullptr) {
@@ -80,9 +79,7 @@ float AShooterCharacter::TakeDamage(float DamageAmount,	struct FDamageEvent cons
 		
 		DetachFromControllerPendingDestroy();
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-
 	}
-
 	return DamageApplied;
 }
 
