@@ -1,7 +1,8 @@
 © Copyright Olivia Mikler 2021
 # BuildingEscape
 
-All assets are created in Maya by me.
+All assets are created in Maya by me. I have also textured all assets with Substance Painter.
+I have used Unreal Engine to composite and to code the gameplay in the levels presented.
 Character + animation is fetched from UE4 asset store.
 
 Developed with Unreal Engine 4 V.22.3
